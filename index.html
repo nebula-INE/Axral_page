@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f7f5">
+  <meta name="description" content="Axral — 創作のための道具と体験を、ひとつのエコシステムへ。">
+  <title>Axral — Create beyond boundaries.</title>
+  <style>
+    :root{--bg:#f7f7f5;--ink:#171717;--muted:#696967;--line:rgba(20,20,20,.12);--blue:#3569e8;--max:1240px}
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth;scroll-padding-top:82px}
+    body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue","Noto Sans JP",YuGothic,"Hiragino Kaku Gothic ProN",Meiryo,sans-serif;letter-spacing:-.025em;-webkit-font-smoothing:antialiased}
+    a{color:inherit;text-decoration:none}
+    button{font:inherit}
+    .nav{height:66px;position:sticky;top:0;z-index:20;background:rgba(247,247,245,.84);backdrop-filter:blur(18px);border-bottom:1px solid rgba(20,20,20,.06)}
+    .nav-inner{height:100%;max-width:var(--max);padding:0 28px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:24px}
+    .brand{font-size:23px;font-weight:750;letter-spacing:-.075em}
+    .brand-mark{display:inline-block;width:9px;height:9px;margin:0 0 2px 2px;border-radius:50%;background:var(--blue)}
+    .nav-links{display:flex;align-items:center;gap:30px;font-size:12px;color:#494947}
+    .nav-links a{transition:color .2s}.nav-links a:hover{color:var(--blue)}
+    .nav-cta{padding:9px 15px;border-radius:999px;background:#171717;color:#fff;font-size:12px;transition:transform .2s,background .2s}
+    .nav-cta:hover{background:#333;transform:translateY(-1px)}
+    .menu-toggle{display:none;border:0;background:none;font-size:23px;padding:8px}
+    .hero{min-height:690px;display:flex;align-items:center;justify-content:center;text-align:center;padding:90px 24px 84px;overflow:hidden;position:relative}
+    .hero:before{content:"";position:absolute;width:720px;height:720px;border-radius:50%;background:radial-gradient(circle,rgba(70,111,231,.11),rgba(70,111,231,0) 68%);top:2%;left:50%;transform:translateX(-50%);pointer-events:none}
+    .hero-content{position:relative;max-width:1000px}
+    .eyebrow{font-size:11px;letter-spacing:.2em;text-transform:uppercase;font-weight:700;color:var(--blue);margin:0 0 24px}
+    h1{font-size:clamp(54px,9.2vw,112px);line-height:.98;letter-spacing:-.085em;font-weight:720;margin:0}
+    .hero-ja{font-size:clamp(18px,2.4vw,27px);font-weight:550;letter-spacing:-.045em;margin:28px 0 12px}
+    .hero-copy{font-size:15px;line-height:1.9;color:var(--muted);max-width:580px;margin:0 auto}
+    .actions{display:flex;justify-content:center;gap:12px;margin-top:30px;flex-wrap:wrap}
+    .button{display:inline-flex;align-items:center;justify-content:center;gap:12px;border-radius:999px;padding:13px 20px;font-size:13px;font-weight:600;transition:transform .2s,background .2s}
+    .button:hover{transform:translateY(-2px)}
+    .button.primary{background:var(--blue);color:white}.button.primary:hover{background:#2456d0}
+    .button.secondary{border:1px solid var(--line);background:rgba(255,255,255,.45)}
+    .button .arrow{font-size:17px;font-weight:400}
+    .orbit{width:min(700px,92vw);height:230px;margin:68px auto 0;position:relative;display:flex;align-items:center;justify-content:center}
+    .orbit-line{position:absolute;width:100%;height:130px;border:1px solid rgba(53,105,232,.2);border-radius:50%;transform:rotate(-13deg)}
+    .orbit-line.two{width:76%;height:190px;transform:rotate(28deg);border-color:rgba(25,25,25,.12)}
+    .orbit-core{width:104px;height:104px;border-radius:31px;display:grid;place-items:center;color:#fff;font-size:32px;font-weight:750;letter-spacing:-.1em;background:linear-gradient(145deg,#202124,#45464a);box-shadow:0 22px 65px rgba(0,0,0,.18);transform:rotate(-8deg);z-index:2}
+    .orbit-node{position:absolute;z-index:3;display:flex;align-items:center;gap:8px;padding:10px 14px;background:rgba(255,255,255,.88);border:1px solid rgba(0,0,0,.08);border-radius:999px;box-shadow:0 8px 28px rgba(0,0,0,.05);font-size:11px;font-weight:650;white-space:nowrap}
+    .orbit-node i{width:7px;height:7px;border-radius:50%;display:block;background:var(--node)}
+    .n1{top:4px;left:13%;--node:#e96b59}.n2{top:22px;right:10%;--node:#6b79e8}.n3{bottom:7px;left:19%;--node:#27a98a}.n4{bottom:0;right:15%;--node:#c69a3a}
+    .section{max-width:var(--max);margin:0 auto;padding:94px 28px}
+    .section-head{display:flex;align-items:end;justify-content:space-between;gap:24px;margin-bottom:34px}
+    .section-kicker{font-size:11px;color:var(--blue);font-weight:750;letter-spacing:.18em;text-transform:uppercase;margin-bottom:12px}
+    h2{font-size:clamp(34px,5vw,56px);line-height:1.06;letter-spacing:-.07em;margin:0;font-weight:700}
+    .section-desc{max-width:390px;color:var(--muted);font-size:13px;line-height:1.9;margin:0}
+    .products{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+    .product-card{min-height:360px;position:relative;overflow:hidden;border-radius:25px;padding:30px;display:flex;flex-direction:column;justify-content:space-between;background:#e9e9e6;isolation:isolate}
+    .product-card.dark{background:#17191f;color:#f7f7f5}
+    .product-card.blue{background:#e5eafa}
+    .product-card.warm{background:#efebe4}
+    .product-card.full{grid-column:1/-1;min-height:300px}
+    .product-top{position:relative;z-index:2}
+    .product-type{font-size:10px;letter-spacing:.16em;text-transform:uppercase;opacity:.65;font-weight:700}
+    .product-card h3{font-size:clamp(28px,3.5vw,42px);letter-spacing:-.07em;margin:13px 0 8px;line-height:1.08}
+    .product-card p{font-size:13px;line-height:1.8;max-width:330px;opacity:.72;margin:0}
+    .product-link{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:650;margin-top:22px;position:relative;z-index:3}
+    .product-link span{font-size:18px;transition:transform .2s}.product-link:hover span{transform:translateX(4px)}
+    .art{position:absolute;right:0;bottom:0;width:57%;height:70%;pointer-events:none;z-index:1}
+    .wave-art{position:absolute;inset:15% -8% 4% 0;opacity:.9;background:repeating-radial-gradient(ellipse at 65% 65%,transparent 0 8px,rgba(255,255,255,.3) 9px 10px,transparent 11px 17px);transform:rotate(-14deg)}
+    .wave-art:after{content:"";position:absolute;inset:18% 0 15%;background:linear-gradient(120deg,transparent 25%,rgba(112,143,255,.6),transparent 75%);filter:blur(18px)}
+    .cut-art{position:absolute;width:210px;height:210px;right:15%;bottom:-25px;border-radius:42px;transform:rotate(24deg);background:linear-gradient(140deg,#444754,#17191f);box-shadow:20px 22px 0 rgba(255,255,255,.07),40px 44px 0 rgba(255,255,255,.04)}
+    .cut-art:before,.cut-art:after{content:"";position:absolute;left:20%;right:20%;height:4px;background:#b8c4ff;border-radius:4px;top:35%;box-shadow:0 18px 0 #858fbd,0 36px 0 #535d8b}
+    .cut-art:after{left:55%;right:12%;top:25%;height:50%;background:rgba(255,255,255,.06);box-shadow:none}
+    .vector-art{position:absolute;width:210px;height:210px;right:10%;bottom:-30px;border:1px solid rgba(0,0,0,.13);border-radius:50%;background:radial-gradient(circle at 35% 35%,#fff 0 7%,transparent 7.5%),radial-gradient(circle at 65% 60%,#6f91ec 0 18%,transparent 18.5%),radial-gradient(circle at 43% 62%,#f2b17c 0 23%,transparent 23.5%),radial-gradient(circle at 54% 44%,#8c80cf 0 28%,transparent 28.5%)}
+    .ai-art{position:absolute;right:12%;bottom:-42px;width:240px;height:240px;border-radius:50%;background:radial-gradient(circle at 50% 50%,#b9c8ff 0 2%,transparent 3%),repeating-radial-gradient(circle at 50% 50%,transparent 0 13px,rgba(122,145,255,.48) 14px 15px,transparent 16px 24px);filter:drop-shadow(0 0 24px rgba(91,123,255,.22))}
+    .world-art{position:absolute;right:9%;bottom:-45px;width:240px;height:240px;border-radius:50%;border:1px solid rgba(0,0,0,.13);background:radial-gradient(ellipse at 30% 40%,rgba(48,130,112,.6),transparent 34%),radial-gradient(ellipse at 70% 65%,rgba(216,159,91,.6),transparent 34%),radial-gradient(ellipse at 60% 25%,rgba(103,117,201,.5),transparent 30%);box-shadow:inset -24px -18px 50px rgba(0,0,0,.1)}
+    .manifesto{background:#171717;color:#f7f7f5;border-radius:30px;padding:clamp(38px,7vw,88px);position:relative;overflow:hidden}
+    .manifesto:after{content:"A";position:absolute;right:-15px;bottom:-170px;font-size:420px;line-height:1;font-weight:800;letter-spacing:-.12em;color:rgba(255,255,255,.035);pointer-events:none}
+    .manifesto h2{max-width:760px;font-size:clamp(40px,6.8vw,82px)}
+    .manifesto p{max-width:510px;color:#aaa;font-size:14px;line-height:2;margin:24px 0 0}
+    .news-list{border-top:1px solid var(--line)}
+    .news-item{display:grid;grid-template-columns:120px 140px 1fr 24px;gap:20px;align-items:center;padding:22px 0;border-bottom:1px solid var(--line);font-size:13px}
+    .news-date,.news-category{color:var(--muted);font-size:11px}
+    .news-title{font-weight:600}.news-arrow{font-size:19px;color:var(--blue)}
+    .news-note{margin-top:16px;font-size:11px;color:var(--muted);line-height:1.8}
+    .footer{border-top:1px solid var(--line);padding:30px 28px 24px}
+    .footer-inner{max-width:var(--max);margin:auto;display:flex;justify-content:space-between;gap:20px;align-items:center;flex-wrap:wrap}
+    .footer-brand{font-size:18px;font-weight:750;letter-spacing:-.075em}
+    .footer-copy,.footer-links{font-size:11px;color:var(--muted)}
+    .footer-links{display:flex;gap:20px;flex-wrap:wrap}
+    .reveal{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s ease}
+    .reveal.visible{opacity:1;transform:translateY(0)}
+    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.reveal{opacity:1;transform:none;transition:none}*{animation:none!important;transition:none!important}}
+    @media(max-width:760px){
+      .nav{height:60px}.nav-inner{padding:0 18px}.menu-toggle{display:block}.nav-cta{margin-left:auto}
+      .nav-links{display:none;position:absolute;top:60px;left:0;right:0;padding:22px;background:rgba(247,247,245,.98);border-bottom:1px solid var(--line);flex-direction:column;align-items:flex-start;gap:22px}
+      .nav-links.open{display:flex}.nav-links a{font-size:14px}
+      .hero{min-height:auto;padding:88px 20px 62px}.hero-copy{font-size:13px}.orbit{height:190px;margin-top:45px}.orbit-core{width:78px;height:78px;border-radius:24px;font-size:25px}.orbit-line{height:100px}.orbit-line.two{height:150px}.orbit-node{font-size:9px;padding:8px 10px}.n1{left:0}.n2{right:0}.n3{left:2%}.n4{right:0}
+      .section{padding:68px 18px}.section-head{align-items:flex-start;flex-direction:column;margin-bottom:24px}.section-desc{font-size:12px}
+      .products{grid-template-columns:1fr;gap:12px}.product-card,.product-card.full{grid-column:auto;min-height:330px;padding:25px;border-radius:21px}.product-card h3{font-size:34px}.art{width:60%;height:58%;opacity:.85}
+      .manifesto{border-radius:22px}.manifesto:after{font-size:280px;bottom:-100px}.manifesto p{font-size:13px}
+      .news-item{grid-template-columns:1fr 24px;gap:8px;padding:18px 0}.news-date,.news-category{grid-column:1}.news-title{grid-column:1;grid-row:2;font-size:13px}.news-arrow{grid-column:2;grid-row:1/3}
+      .footer{padding:26px 18px 22px}.footer-inner{align-items:flex-start;flex-direction:column}.footer-links{gap:15px}
+    }
+  </style>
+</head>
+<body>
+  <header class="nav">
+    <div class="nav-inner">
+      <a class="brand" href="#top" aria-label="Axral ホーム">Axral<span class="brand-mark"></span></a>
+      <nav class="nav-links" id="navLinks" aria-label="メインナビゲーション">
+        <a href="#products">プロダクト</a><a href="#philosophy">Axralについて</a><a href="#newsroom">Newsroom</a><a href="https://github.com/nebula-INE" target="_blank" rel="noreferrer">開発者</a>
+      </nav>
+      <a class="nav-cta" href="#products">プロダクトを見る</a>
+      <button class="menu-toggle" id="menuToggle" aria-label="メニューを開く" aria-expanded="false">☰</button>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="hero-content">
+        <p class="eyebrow">A new way to create</p>
+        <h1>想像を、<br>その先へ。</h1>
+        <p class="hero-ja">創作の可能性を、ひとつにつなぐ。</p>
+        <p class="hero-copy">音楽、映像、イラスト、AI、そして世界をつくること。<br>Axralは、アイデアをかたちにするための道具を開発しています。</p>
+        <div class="actions"><a class="button primary" href="#products">Axralのプロダクトを見る <span class="arrow">↗</span></a><a class="button secondary" href="#philosophy">私たちについて</a></div>
+        <div class="orbit" aria-label="Axralの創作エコシステムを表すビジュアル">
+          <div class="orbit-line"></div><div class="orbit-line two"></div>
+          <div class="orbit-core">Axral</div>
+          <div class="orbit-node n1"><i></i>VOICE</div><div class="orbit-node n2"><i></i>AI</div><div class="orbit-node n3"><i></i>DESIGN</div><div class="orbit-node n4"><i></i>WORLDS</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="products">
+      <div class="section-head reveal">
+        <div><div class="section-kicker">The ecosystem</div><h2>ひとつの創造性に、<br>無限の入口を。</h2></div>
+        <p class="section-desc">それぞれの制作に深く向き合うツールから、ツール同士がつながる体験へ。Axralのエコシステムは、創作のワークフローをもっと自由にすることを目指します。</p>
+      </div>
+      <div class="products">
+        <article class="product-card dark reveal">
+          <div class="product-top"><div class="product-type">Music · Voice</div><h3>VO-SE vocal</h3><p>歌声を、思い描いた音へ。音声合成と細やかな編集を追求する制作環境。</p><a class="product-link" href="https://github.com/nebula-INE/VO-SE_vocal" target="_blank" rel="noreferrer">プロジェクトを見る <span>↗</span></a></div>
+          <div class="art"><div class="wave-art"></div></div>
+        </article>
+        <article class="product-card blue reveal">
+          <div class="product-top"><div class="product-type">Video · Editing</div><h3>VO-SE cut studio</h3><p>映像編集の流れを、もっと直感的に。アイデアをテンポよく映像へ。</p><a class="product-link" href="https://github.com/nebula-INE/VO-SE-cut-studio" target="_blank" rel="noreferrer">プロジェクトを見る <span>↗</span></a></div>
+          <div class="art"><div class="cut-art"></div></div>
+        </article>
+        <article class="product-card warm reveal">
+          <div class="product-top"><div class="product-type">Illustration · Vector</div><h3>Axral InkVector</h3><p>線も、形も、発想のままに。表現を支えるベクター制作ツール。</p><a class="product-link" href="https://github.com/nebula-INE/Axral_InkVector" target="_blank" rel="noreferrer">プロジェクトを見る <span>↗</span></a></div>
+          <div class="art"><div class="vector-art"></div></div>
+        </article>
+        <article class="product-card dark reveal">
+          <div class="product-top"><div class="product-type">Intelligence · AI</div><h3>Axral MINI-AI</h3><p>日々の創作に寄り添う、小さく柔軟なAIという選択肢。</p><a class="product-link" href="https://github.com/nebula-INE/Axral_MINI-AI" target="_blank" rel="noreferrer">プロジェクトを見る <span>↗</span></a></div>
+          <div class="art"><div class="ai-art"></div></div>
+        </article>
+        <article class="product-card full reveal">
+          <div class="product-top"><div class="product-type">Worldbuilding · Knowledge</div><h3>World Editor</h3><p>物語の設定、人物、場所、関係性。頭の中にある世界を、見渡せるかたちに。</p><a class="product-link" href="https://github.com/nebula-INE/World_editor_web" target="_blank" rel="noreferrer">プロジェクトを見る <span>↗</span></a></div>
+          <div class="art"><div class="world-art"></div></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="philosophy">
+      <div class="manifesto reveal">
+        <div class="section-kicker">Why Axral</div>
+        <h2>道具が変われば、<br>創作の景色も変わる。</h2>
+        <p>私たちがつくりたいのは、単なるソフトウェアの集まりではありません。作り手の集中を妨げず、挑戦を後押しし、ひとつのアイデアが次の表現へつながっていく環境です。小さな使いやすさから、創作の未来まで。</p>
+      </div>
+    </section>
+
+    <section class="section" id="newsroom">
+      <div class="section-head reveal">
+        <div><div class="section-kicker">Axral Newsroom</div><h2>Axralからのお知らせ。</h2></div>
+        <p class="section-desc">プロダクトの開発状況、アップデート、プロジェクトに関する公式情報をここからお届けします。</p>
+      </div>
+      <div class="news-list reveal">
+        <div class="news-item"><span class="news-date">2026.10.09</span><span class="news-category">Company</span><span class="news-title">Axral公式サイトの制作を開始</span><span class="news-arrow">↗</span></div>
+        <div class="news-item"><span class="news-date">—</span><span class="news-category">Product</span><span class="news-title">プロダクトの最新情報は、準備が整い次第お知らせします。</span><span class="news-arrow">↗</span></div>
+      </div>
+      <p class="news-note">※ Newsroomは公開準備中です。開発状況やリリース情報は、確定した内容から順次掲載します。</p>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <a class="footer-brand" href="#top">Axral<span class="brand-mark"></span></a>
+      <span class="footer-copy">© 2026 Axral. Built for creators.</span>
+      <div class="footer-links"><a href="#products">プロダクト</a><a href="#newsroom">Newsroom</a><a href="https://github.com/nebula-INE" target="_blank" rel="noreferrer">GitHub</a></div>
+    </div>
+  </footer>
+  <script>
+    const toggle = document.getElementById('menuToggle');
+    const links = document.getElementById('navLinks');
+    toggle.addEventListener('click', () => {
+      const open = links.classList.toggle('open');
+      toggle.setAttribute('aria-expanded', String(open));
+      toggle.setAttribute('aria-label', open ? 'メニューを閉じる' : 'メニューを開く');
+      toggle.textContent = open ? '×' : '☰';
+    });
+    links.querySelectorAll('a').forEach(link => link.addEventListener('click', () => {
+      links.classList.remove('open'); toggle.setAttribute('aria-expanded','false'); toggle.textContent='☰';
+    }));
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('visible'); observer.unobserve(entry.target); } });
+    }, {threshold: 0.12});
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
