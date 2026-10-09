@@ -10,7 +10,7 @@ window.AXRAL_ARTICLES = [
     category: "Company",
     title: "Axral公式サイトの制作を開始",
     summary: "Axralの取り組みやプロダクトの情報をお届けする公式サイトの制作を開始しました。",
-    published: true,
+    products: ["Axral"],\n    tags: ["公式サイト", "お知らせ"],\n    published: true,
     body: [
       { type: "paragraph", text: "Axralの公式サイトを公開に向けて制作しています。" },
       { type: "paragraph", text: "このサイトでは、Axralが開発するプロダクト、アップデート、イベントなどの公式情報をNewsroomからお届けしていきます。" },
