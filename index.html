@@ -186,9 +186,8 @@
         <div><div class="section-kicker">Axral Newsroom</div><h2>Axralからのお知らせ。</h2></div>
         <p class="section-desc">プロダクトの開発状況、アップデート、プロジェクトに関する公式情報をここからお届けします。</p>
       </div>
-      <div class="news-list reveal">
-        <a class="news-item" href="article.html?id=official-site-launch"><span class="news-date">2026.10.09</span><span class="news-category">Company</span><span class="news-title">Axral公式サイトの制作を開始</span><span class="news-arrow">↗</span></a>
-        <a class="news-item" href="newsroom.html"><span class="news-date">Newsroom</span><span class="news-category">Information</span><span class="news-title">ニュース一覧を見る。検索・カテゴリ別に記事を探せます。</span><span class="news-arrow">↗</span></a>
+      <div class="news-list reveal" id="newsPreview" aria-live="polite">
+        <p class="news-note">ニュースを読み込み中…</p>
       </div>
       <p class="news-note">公式発表やアップデート情報はNewsroomで順次お知らせします。<a href="newsroom.html" style="color:var(--blue);font-weight:650"> Newsroomをすべて見る ↗</a></p>
     </section>
@@ -201,7 +200,41 @@
       <div class="footer-links"><a href="#products">プロダクト</a><a href="#newsroom">Newsroom</a><a href="https://github.com/nebula-INE" target="_blank" rel="noreferrer">GitHub</a></div>
     </div>
   </footer>
+  <script src="newsroom-data.js"></script>
   <script>
+    const preview = document.getElementById('newsPreview');
+    const categoryLabels = {Company:'会社情報',Product:'プロダクト',Update:'アップデート',Event:'イベント',Media:'メディア'};
+    const previewArticles = (window.AXRAL_ARTICLES || [])
+      .filter(article => article.published === true)
+      .sort((a,b) => (b.date || '').localeCompare(a.date || ''))
+      .slice(0,3);
+    preview.replaceChildren();
+    if (previewArticles.length) {
+      previewArticles.forEach(article => {
+        const link = document.createElement('a');
+        link.className = 'news-item';
+        link.href = 'article.html?id=' + encodeURIComponent(article.id);
+        const date = document.createElement('span');
+        date.className = 'news-date';
+        date.textContent = (article.date || '').replaceAll('-', '.');
+        const category = document.createElement('span');
+        category.className = 'news-category';
+        category.textContent = categoryLabels[article.category] || article.category || 'お知らせ';
+        const title = document.createElement('span');
+        title.className = 'news-title';
+        title.textContent = article.title || '無題の記事';
+        const arrow = document.createElement('span');
+        arrow.className = 'news-arrow';
+        arrow.textContent = '↗';
+        link.append(date, category, title, arrow);
+        preview.append(link);
+      });
+    } else {
+      const empty = document.createElement('p');
+      empty.className = 'news-note';
+      empty.textContent = '現在公開中のお知らせはありません。';
+      preview.append(empty);
+    }
     const toggle = document.getElementById('menuToggle');
     const links = document.getElementById('navLinks');
     toggle.addEventListener('click', () => {
