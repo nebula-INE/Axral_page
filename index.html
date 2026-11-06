@@ -246,6 +246,8 @@
     const closeMenu = () => { links.classList.remove('open'); toggle.setAttribute('aria-expanded','false'); toggle.setAttribute('aria-label','メニューを開く'); toggle.textContent='☰'; };
     links.querySelectorAll('a').forEach(link => link.addEventListener('click', closeMenu));
     document.querySelector('.nav-cta').addEventListener('click', closeMenu);
+    document.addEventListener('click', event => { if (links.classList.contains('open') && !event.target.closest('.nav-inner')) closeMenu(); });
+    window.addEventListener('resize', () => { if (window.matchMedia('(min-width: 761px)').matches) closeMenu(); });
     document.addEventListener('keydown', event => { if (event.key === 'Escape' && links.classList.contains('open')) { closeMenu(); toggle.focus(); } });
     if ('IntersectionObserver' in window) {
     const observer = new IntersectionObserver(entries => {
