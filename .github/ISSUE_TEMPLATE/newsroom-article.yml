@@ -1,8 +1,6 @@
 name: Newsroom記事追加
 description: Axral公式サイトのNewsroomに掲載する記事を入力します
 title: "[Newsroom] "
-labels:
-  - newsroom
 body:
   - type: markdown
     attributes:
