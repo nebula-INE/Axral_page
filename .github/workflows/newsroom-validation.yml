@@ -1,0 +1,32 @@
+name: Newsroom validation
+
+on:
+  push:
+    branches: [main, improve/homepage-hero]
+    paths:
+      - 'newsroom-data.js'
+      - 'tools/validate-newsroom.cjs'
+      - '.github/workflows/newsroom-validation.yml'
+  pull_request:
+    paths:
+      - 'newsroom-data.js'
+      - 'tools/validate-newsroom.cjs'
+      - '.github/workflows/newsroom-validation.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: Validate Newsroom articles
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Validate article data
+        run: node tools/validate-newsroom.cjs

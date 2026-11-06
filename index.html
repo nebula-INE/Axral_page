@@ -5,6 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#f7f7f5">
   <meta name="description" content="Axral — 創作のための道具と体験を、ひとつのエコシステムへ。">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Axral — Create beyond boundaries.">
+  <meta property="og:description" content="創作の、その先へ。音楽、映像、イラスト、アイデアをつなぐAxralのエコシステム。">
+  <meta property="og:locale" content="ja_JP">
   <title>Axral — Create beyond boundaries.</title>
   <style>
     :root{--bg:#f7f7f5;--ink:#171717;--muted:#696967;--line:rgba(20,20,20,.12);--blue:#3569e8;--max:1240px}
@@ -13,6 +17,9 @@
     body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue","Noto Sans JP",YuGothic,"Hiragino Kaku Gothic ProN",Meiryo,sans-serif;letter-spacing:-.025em;-webkit-font-smoothing:antialiased}
     a{color:inherit;text-decoration:none}
     button{font:inherit}
+    :focus-visible{outline:3px solid var(--blue);outline-offset:4px}
+    .skip-link{position:absolute;left:12px;top:-48px;z-index:100;padding:10px 14px;background:#171717;color:#fff;border-radius:8px}
+    .skip-link:focus{top:12px}
     .nav{height:66px;position:sticky;top:0;z-index:20;background:rgba(247,247,245,.84);backdrop-filter:blur(18px);border-bottom:1px solid rgba(20,20,20,.06)}
     .nav-inner{height:100%;max-width:var(--max);padding:0 28px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:24px}
     .brand{font-size:23px;font-weight:750;letter-spacing:-.075em}
@@ -103,7 +110,8 @@
     }
   </style>
 </head>
-<body>
+<body id="top">
+  <a class="skip-link" href="#main-content">本文へスキップ</a>
   <header class="nav">
     <div class="nav-inner">
       <a class="brand" href="#top" aria-label="Axral ホーム">Axral<span class="brand-mark"></span></a>
@@ -111,16 +119,37 @@
         <a href="#products">プロダクト</a><a href="#philosophy">Axralについて</a><a href="newsroom.html">Newsroom</a><a href="https://github.com/nebula-INE" target="_blank" rel="noreferrer">開発者</a>
       </nav>
       <a class="nav-cta" href="#products">プロダクトを見る</a>
-      <button class="menu-toggle" id="menuToggle" aria-label="メニューを開く" aria-expanded="false">☰</button>
+      <button class="menu-toggle" id="menuToggle" aria-label="メニューを開く" aria-controls="navLinks" aria-expanded="false">☰</button>
     </div>
   </header>
 
-  <main id="top">
+  <main id="main-content">
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-content reveal">
+        <p class="eyebrow">Independent creative ecosystem</p>
+        <h1 id="hero-title">Create beyond<br>boundaries.</h1>
+        <p class="hero-ja">創作の、その先へ。</p>
+        <p class="hero-copy">音楽、映像、イラスト、そしてアイデア。<br>つくる人の可能性を広げる道具と体験を、Axralから。</p>
+        <div class="actions">
+          <a class="button primary" href="#products">プロダクトを見る <span class="arrow">→</span></a>
+          <a class="button secondary" href="newsroom.html">最新のお知らせ <span class="arrow">↗</span></a>
+        </div>
+        <div class="orbit" aria-hidden="true">
+          <div class="orbit-line"></div><div class="orbit-line two"></div>
+          <div class="orbit-core">Ax</div>
+          <span class="orbit-node n1"><i></i>Music</span>
+          <span class="orbit-node n2"><i></i>Intelligence</span>
+          <span class="orbit-node n3"><i></i>Visual</span>
+          <span class="orbit-node n4"><i></i>World</span>
+        </div>
+      </div>
+    </section>
     <section class="section" id="products">
       <div class="section-head reveal">
         <div><div class="section-kicker">The ecosystem</div><h2>ひとつの創造性に、<br>無限の入口を。</h2></div>
         <p class="section-desc">それぞれの制作に深く向き合うツールから、ツール同士がつながる体験へ。Axralのエコシステムは、創作のワークフローをもっと自由にすることを目指します。</p>
       </div>
+      <div class="products">
       <article class="product-card dark full featured-product reveal">
         <div class="product-top"><div class="product-type">Featured · Music / Voice</div><span class="product-status">開発プロジェクト</span><h3>VO-SE vocal</h3><p>歌声を、思い描いた音へ。UTAU音源との互換性を重視した、歌声制作環境。</p><a class="product-link" href="products/vo-se-vocal/">VO-SE vocalの詳細を見る <span>↗</span></a></div>
         <div class="art"><div class="wave-art"></div></div>
@@ -157,9 +186,8 @@
         <div><div class="section-kicker">Axral Newsroom</div><h2>Axralからのお知らせ。</h2></div>
         <p class="section-desc">プロダクトの開発状況、アップデート、プロジェクトに関する公式情報をここからお届けします。</p>
       </div>
-      <div class="news-list reveal">
-        <a class="news-item" href="article.html?id=official-site-launch"><span class="news-date">2026.10.09</span><span class="news-category">Company</span><span class="news-title">Axral公式サイトの制作を開始</span><span class="news-arrow">↗</span></a>
-        <a class="news-item" href="newsroom.html"><span class="news-date">Newsroom</span><span class="news-category">Information</span><span class="news-title">ニュース一覧を見る。検索・カテゴリ別に記事を探せます。</span><span class="news-arrow">↗</span></a>
+      <div class="news-list reveal" id="newsPreview" aria-live="polite">
+        <p class="news-note">ニュースを読み込み中…</p>
       </div>
       <p class="news-note">公式発表やアップデート情報はNewsroomで順次お知らせします。<a href="newsroom.html" style="color:var(--blue);font-weight:650"> Newsroomをすべて見る ↗</a></p>
     </section>
@@ -172,7 +200,41 @@
       <div class="footer-links"><a href="#products">プロダクト</a><a href="#newsroom">Newsroom</a><a href="https://github.com/nebula-INE" target="_blank" rel="noreferrer">GitHub</a></div>
     </div>
   </footer>
+  <script src="newsroom-data.js"></script>
   <script>
+    const preview = document.getElementById('newsPreview');
+    const categoryLabels = {Company:'会社情報',Product:'プロダクト',Update:'アップデート',Event:'イベント',Media:'メディア'};
+    const previewArticles = (window.AXRAL_ARTICLES || [])
+      .filter(article => article.published === true)
+      .sort((a,b) => (b.date || '').localeCompare(a.date || ''))
+      .slice(0,3);
+    preview.replaceChildren();
+    if (previewArticles.length) {
+      previewArticles.forEach(article => {
+        const link = document.createElement('a');
+        link.className = 'news-item';
+        link.href = 'article.html?id=' + encodeURIComponent(article.id);
+        const date = document.createElement('span');
+        date.className = 'news-date';
+        date.textContent = (article.date || '').replaceAll('-', '.');
+        const category = document.createElement('span');
+        category.className = 'news-category';
+        category.textContent = categoryLabels[article.category] || article.category || 'お知らせ';
+        const title = document.createElement('span');
+        title.className = 'news-title';
+        title.textContent = article.title || '無題の記事';
+        const arrow = document.createElement('span');
+        arrow.className = 'news-arrow';
+        arrow.textContent = '↗';
+        link.append(date, category, title, arrow);
+        preview.append(link);
+      });
+    } else {
+      const empty = document.createElement('p');
+      empty.className = 'news-note';
+      empty.textContent = '現在公開中のお知らせはありません。';
+      preview.append(empty);
+    }
     const toggle = document.getElementById('menuToggle');
     const links = document.getElementById('navLinks');
     toggle.addEventListener('click', () => {
@@ -181,13 +243,18 @@
       toggle.setAttribute('aria-label', open ? 'メニューを閉じる' : 'メニューを開く');
       toggle.textContent = open ? '×' : '☰';
     });
-    links.querySelectorAll('a').forEach(link => link.addEventListener('click', () => {
-      links.classList.remove('open'); toggle.setAttribute('aria-expanded','false'); toggle.textContent='☰';
-    }));
+    const closeMenu = () => { links.classList.remove('open'); toggle.setAttribute('aria-expanded','false'); toggle.setAttribute('aria-label','メニューを開く'); toggle.textContent='☰'; };
+    links.querySelectorAll('a').forEach(link => link.addEventListener('click', closeMenu));
+    document.querySelector('.nav-cta').addEventListener('click', closeMenu);
+    document.addEventListener('click', event => { if (links.classList.contains('open') && !event.target.closest('.nav-inner')) closeMenu(); });
+    window.addEventListener('resize', () => { if (window.matchMedia('(min-width: 761px)').matches) closeMenu(); });
+    document.addEventListener('keydown', event => { if (event.key === 'Escape' && links.classList.contains('open')) { closeMenu(); toggle.focus(); } });
+    if ('IntersectionObserver' in window) {
     const observer = new IntersectionObserver(entries => {
       entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('visible'); observer.unobserve(entry.target); } });
     }, {threshold: 0.12});
     document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    } else { document.querySelectorAll('.reveal').forEach(el => el.classList.add('visible')); }
   </script>
 </body>
 </html>
