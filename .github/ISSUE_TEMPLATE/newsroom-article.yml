@@ -1,0 +1,91 @@
+name: Newsroom記事追加
+description: Axral公式サイトのNewsroomに掲載する記事を入力します
+title: "[Newsroom] "
+labels:
+  - newsroom
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ここで入力した内容から、Newsroomへの追加Pull Requestを自動作成します。
+        公開前にPull Requestで内容を確認してください。機密情報は入力しないでください。
+  - type: input
+    id: article_title
+    attributes:
+      label: 記事タイトル
+      placeholder: 例：VO-SE vocal 新バージョンのお知らせ
+    validations:
+      required: true
+  - type: input
+    id: article_date
+    attributes:
+      label: 掲載日
+      description: YYYY-MM-DD形式で入力してください。
+      placeholder: "2026-11-06"
+    validations:
+      required: true
+  - type: dropdown
+    id: article_category
+    attributes:
+      label: カテゴリ
+      options:
+        - Company
+        - Product
+        - Update
+        - Event
+        - Media
+    validations:
+      required: true
+  - type: textarea
+    id: article_summary
+    attributes:
+      label: 概要
+      description: Newsroom一覧に表示する短い説明です。
+      placeholder: 記事の要点を1〜2文で入力
+      render: markdown
+    validations:
+      required: true
+  - type: input
+    id: article_products
+    attributes:
+      label: 対象プロダクト
+      description: 複数ある場合は半角カンマで区切ってください。例：VO-SE vocal, Axral
+      placeholder: "VO-SE vocal, Axral"
+    validations:
+      required: false
+  - type: input
+    id: article_tags
+    attributes:
+      label: タグ
+      description: 複数ある場合は半角カンマで区切ってください。
+      placeholder: "アップデート, お知らせ"
+    validations:
+      required: false
+  - type: textarea
+    id: article_body
+    attributes:
+      label: 本文
+      description: |
+        Markdown形式で入力できます。
+        ## 見出し、通常の段落、- 箇条書き、> 引用に対応します。
+      placeholder: |
+        記事本文を入力してください。
+
+        ## 詳細
+        説明を入力してください。
+
+        - 項目A
+        - 項目B
+      render: markdown
+    validations:
+      required: true
+  - type: dropdown
+    id: article_publish
+    attributes:
+      label: 公開設定
+      description: 公開を選んでも、Pull Requestがマージされるまではサイトに反映されません。
+      options:
+        - 下書き
+        - 公開（レビュー後に反映）
+    validations:
+      required: true
