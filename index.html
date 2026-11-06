@@ -203,7 +203,7 @@
   <script src="newsroom-data.js"></script>
   <script>
     const preview = document.getElementById('newsPreview');
-    const categoryLabels = {Company:'会社情報',Product:'プロダクト',Update:'アップデート',Event:'イベント',Media:'メディア'};
+    const categoryLabels = {Company:'運営情報',Product:'プロダクト',Update:'アップデート',Event:'イベント',Media:'メディア'};
     const previewArticles = (window.AXRAL_ARTICLES || [])
       .filter(article => article.published === true)
       .sort((a,b) => (b.date || '').localeCompare(a.date || ''))
