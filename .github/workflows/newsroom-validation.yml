@@ -15,6 +15,9 @@ on:
       - 'newsroom-data.js'
       - 'tools/validate-newsroom.cjs'
       - '.github/workflows/newsroom-validation.yml'
+      - '.github/ISSUE_TEMPLATE/newsroom-article.yml'
+      - '.github/workflows/newsroom-article-request.yml'
+      - 'NEWSROOM_GUIDE.md'
   workflow_dispatch:
 
 permissions:
