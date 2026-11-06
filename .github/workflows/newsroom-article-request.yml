@@ -86,7 +86,7 @@ jobs:
 
       - name: Add article and validate
         env:
-          ARTICLE_JSON: \${{ steps.article.outputs.article }}
+          ARTICLE_JSON: ${{ steps.article.outputs.article }}
         run: |
           node <<'NODE'
           const fs = require("node:fs");
@@ -112,15 +112,15 @@ jobs:
         id: cpr
         uses: peter-evans/create-pull-request@v7
         with:
-          token: \${{ secrets.GITHUB_TOKEN }}
-          commit-message: "Add Newsroom article from issue #\${{ github.event.issue.number }}"
-          branch: "newsroom/article-\${{ github.event.issue.number }}"
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "Add Newsroom article from issue #${{ github.event.issue.number }}"
+          branch: "newsroom/article-${{ github.event.issue.number }}"
           delete-branch: true
-          title: "Newsroom記事追加: \${{ github.event.issue.title }}"
+          title: "Newsroom記事追加: ${{ github.event.issue.title }}"
           body: |
             Newsroom記事追加フォームから生成した記事です。
 
-            - 元Issue: #\${{ github.event.issue.number }}
+            - 元Issue: #${{ github.event.issue.number }}
             - 公開設定: フォーム入力を反映
             - newsroom-data.js の検証: CIで実行
 
@@ -132,8 +132,8 @@ jobs:
         uses: actions/github-script@v7
         with:
           script: |
-            const number = Number("\${{ steps.cpr.outputs.pull-request-number }}");
-            const url = "\${{ steps.cpr.outputs.pull-request-url }}";
+            const number = Number("${{ steps.cpr.outputs.pull-request-number }}");
+            const url = "${{ steps.cpr.outputs.pull-request-url }}";
             await github.rest.issues.createComment({
               ...context.repo,
               issue_number: context.issue.number,
