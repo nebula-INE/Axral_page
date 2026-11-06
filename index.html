@@ -119,7 +119,7 @@
         <a href="#products">プロダクト</a><a href="#philosophy">Axralについて</a><a href="newsroom.html">Newsroom</a><a href="https://github.com/nebula-INE" target="_blank" rel="noreferrer">開発者</a>
       </nav>
       <a class="nav-cta" href="#products">プロダクトを見る</a>
-      <button class="menu-toggle" id="menuToggle" aria-label="メニューを開く" aria-expanded="false">☰</button>
+      <button class="menu-toggle" id="menuToggle" aria-label="メニューを開く" aria-controls="navLinks" aria-expanded="false">☰</button>
     </div>
   </header>
 
@@ -245,6 +245,7 @@
     });
     const closeMenu = () => { links.classList.remove('open'); toggle.setAttribute('aria-expanded','false'); toggle.setAttribute('aria-label','メニューを開く'); toggle.textContent='☰'; };
     links.querySelectorAll('a').forEach(link => link.addEventListener('click', closeMenu));
+    document.querySelector('.nav-cta').addEventListener('click', closeMenu);
     document.addEventListener('keydown', event => { if (event.key === 'Escape' && links.classList.contains('open')) { closeMenu(); toggle.focus(); } });
     if ('IntersectionObserver' in window) {
     const observer = new IntersectionObserver(entries => {
