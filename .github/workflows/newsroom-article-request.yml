@@ -1,0 +1,141 @@
+name: Create Newsroom article PR
+
+on:
+  issues:
+    types: [opened]
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
+jobs:
+  create-article:
+    if: contains(fromJSON('["OWNER","MEMBER","COLLABORATOR"]'), github.event.issue.author_association)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Parse article form
+        id: article
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const issue = context.payload.issue;
+            const body = issue.body || "";
+            const field = (label) => {
+              const marker = "### " + label + "\n";
+              const start = body.indexOf(marker);
+              if (start < 0) return "";
+              const valueStart = start + marker.length;
+              const next = body.indexOf("\n### ", valueStart);
+              return body.slice(valueStart, next < 0 ? body.length : next).trim();
+            };
+            const title = field("記事タイトル");
+            const date = field("掲載日");
+            const category = field("カテゴリ");
+            const summary = field("概要");
+            const products = field("対象プロダクト");
+            const tags = field("タグ");
+            const markdown = field("本文");
+            const publish = field("公開設定");
+            const categories = ["Company", "Product", "Update", "Event", "Media"];
+            if (!title || !summary || !markdown) throw new Error("タイトル・概要・本文は必須です。");
+            if (!/^\d{4}-\d{2}-\d{2}$/.test(date) || Number.isNaN(Date.parse(date)) || new Date(date + "T00:00:00Z").toISOString().slice(0, 10) !== date) {
+              throw new Error("掲載日は実在する YYYY-MM-DD 形式で入力してください。");
+            }
+            if (!categories.includes(category)) throw new Error("カテゴリが不正です。");
+            const split = value => value.split(",").map(v => v.trim()).filter(Boolean);
+            const blocks = [];
+            const chunks = markdown.replace(/\r\n/g, "\n").trim().split(/\n\s*\n/).filter(Boolean);
+            for (const chunk of chunks) {
+              const lines = chunk.split("\n");
+              if (lines.every(line => /^-\s+/.test(line))) {
+                blocks.push({ type: "list", items: lines.map(line => line.replace(/^-\s+/, "").trim()).filter(Boolean) });
+              } else if (lines.every(line => /^>\s?/.test(line))) {
+                blocks.push({ type: "quote", text: lines.map(line => line.replace(/^>\s?/, "")).join("\n").trim() });
+              } else if (/^##\s+/.test(lines[0])) {
+                blocks.push({ type: "heading", text: lines[0].replace(/^##\s+/, "").trim() });
+                const rest = lines.slice(1).join("\n").trim();
+                if (rest) blocks.push({ type: "paragraph", text: rest });
+              } else {
+                blocks.push({ type: "paragraph", text: chunk.trim() });
+              }
+            }
+            if (!blocks.length) throw new Error("本文ブロックがありません。");
+            const article = {
+              id: "news-" + date + "-" + issue.number,
+              date,
+              category,
+              title,
+              summary,
+              products: split(products),
+              tags: split(tags),
+              published: publish === "公開（レビュー後に反映）",
+              body: blocks
+            };
+            core.setOutput("article", JSON.stringify(article));
+
+      - name: Add article and validate
+        env:
+          ARTICLE_JSON: ${{ steps.article.outputs.article }}
+        run: |
+          node <<'NODE'
+          const fs = require("node:fs");
+          const vm = require("node:vm");
+          const file = "newsroom-data.js";
+          const source = fs.readFileSync(file, "utf8");
+          const context = { window: {} };
+          vm.runInNewContext(source, context, { filename: file });
+          const articles = context.window.AXRAL_ARTICLES;
+          if (!Array.isArray(articles)) throw new Error("AXRAL_ARTICLES is not an array");
+          const article = JSON.parse(process.env.ARTICLE_JSON);
+          if (articles.some(item => item.id === article.id)) throw new Error("Duplicate article ID: " + article.id);
+          const end = source.lastIndexOf("];");
+          if (end < 0) throw new Error("Could not find the end of AXRAL_ARTICLES");
+          const before = source.slice(0, end).trimEnd();
+          const separator = articles.length ? "," : "";
+          const inserted = JSON.stringify(article, null, 2).split("\n").map(line => "  " + line).join("\n");
+          fs.writeFileSync(file, before + separator + "\n" + inserted + "\n];\n");
+          NODE
+          node tools/validate-newsroom.cjs
+
+      - name: Create Pull Request
+        id: cpr
+        uses: peter-evans/create-pull-request@v7
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "Add Newsroom article from issue #${{ github.event.issue.number }}"
+          branch: "newsroom/article-${{ github.event.issue.number }}"
+          delete-branch: true
+          title: "Newsroom記事追加: ${{ github.event.issue.title }}"
+          body: |
+            Newsroom記事追加フォームから生成した記事です。
+
+            - 元Issue: #${{ github.event.issue.number }}
+            - 公開設定: フォーム入力を反映
+            - newsroom-data.js の検証: CIで実行
+
+            内容を確認してからマージしてください。
+          add-paths: newsroom-data.js
+
+      - name: Comment on source issue
+        if: steps.cpr.outputs.pull-request-number
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const number = Number("${{ steps.cpr.outputs.pull-request-number }}");
+            const url = "${{ steps.cpr.outputs.pull-request-url }}";
+            await github.rest.issues.createComment({
+              ...context.repo,
+              issue_number: context.issue.number,
+              body: "Newsroom記事のPull Requestを作成しました: #" + number + "\n" + url + "\n\n内容を確認してマージするとサイトに反映されます。"
+            });
